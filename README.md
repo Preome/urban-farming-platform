@@ -106,11 +106,7 @@ node prisma/seed.js
 Performance metrics & load testing results:  
 [📈 BENCHMARK_REPORT.md](BENCHMARK_REPORT.md)
 
-## 🔗 GitHub
 
-- Repository: https://github.com/yourusername/urban-farming-platform (update with actual)
-- Issues: https://github.com/yourusername/urban-farming-platform/issues
-- Stars: ![Stars](https://img.shields.io/github/stars/yourusername/urban-farming-platform)
 
 
 
