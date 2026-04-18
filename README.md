@@ -65,75 +65,40 @@ npm run dev  # Development with nodemon
 npm start    # Production
 ```
 
-🌐 **Swagger Docs**: http://localhost:3000/api-docs  
 
 
 ## 🗄️ Database Schema
 
-**Key Models** (14 tables):
-```
-User (Roles: ADMIN/VENDOR/CUSTOMER) → VendorProfile → Produce (100+ items)
-                       ↓
-RentalSpace ← RentalBooking
-                       ↓
-Order → OrderItem
-CommunityPost → CommunityComment
-PlantTracking → PlantHealthUpdate
-SustainabilityCert
-```
 
-**Full Schema**: [prisma/schema.prisma](prisma/schema.prisma)  
-**Migrations**: [prisma/migrations/](prisma/migrations/)
+**Full Schema**: [https://github.com/Preome/urban-farming-platform/blob/main/prisma/schema.prisma](https://github.com/Preome/urban-farming-platform/blob/main/prisma/schema.prisma)  
+**Migrations**: [https://github.com/Preome/urban-farming-platform/tree/main/prisma/migrations](https://github.com/Preome/urban-farming-platform/tree/main/prisma/migrations)
 
 ## 🌱 Seeder Script
+
 
 `prisma/seed.js` populates:
 - **3 Roles**: 1 Admin, 10 Vendors (full profiles), 5+ Customers
 - **100 Products**: Across categories (Vegetables, Fruits, Herbs, etc.) with pricing/availability
 - **Sample Data**: Rental spaces, community posts (30+), plant trackings, certifications
 
+**Link**: [https://github.com/Preome/urban-farming-platform/blob/main/prisma/seed.js](https://github.com/Preome/urban-farming-platform/blob/main/prisma/seed.js)
+
 ```bash
 node prisma/seed.js
 ```
 
+
+
 ## 📚 API Documentation & Testing
 
-### Swagger/OpenAPI
-- Live Docs: http://localhost:3000/api-docs
-- Spec: [swagger.yaml](swagger.yaml)
+### Swagger Testing
+- Spec file : [swagger.yaml](swagger.yaml)
+- Swagger collection with sample request and response : https://docs.google.com/document/d/11KRyJPEL67liSUB2KhqsZlF0scEvGvhizUw-W-bJM_E/edit?tab=t.0
 
-### Postman Collection
-- Import: [Urban_Farming_Platform.postman_collection.json](postman/Urban_Farming_Platform.postman_collection.json)
-- Sample requests: Auth, Produce listing, Orders, Community posts
-
-**Sample Request** (Register):
-```
-POST /api/auth/register
-{
-  "name": "John Doe",
-  "email": "john@example.com", 
-  "password": "securepass123"
-}
-```
 
 ## ⚡ API Response Control & Performance Strategy
+[PERFORMANCE_STRATEGY.md](PERFORMANCE_STRATEGY)
 
-**Standardized Responses**:
-```json
-{
-  "success": true,
-  "message": "Success message",
-  "data": {...},
-  "meta": { "page": 1, "limit": 20, "total": 100 }
-}
-```
-
-**Performance Optimizations** (see [PERFORMANCE_STRATEGY.md](PERFORMANCE_STRATEGY.md)):
-- Prisma query optimization & select fields
-- Rate limiting (`middleware/rateLimiter.js`)
-- Pagination on all list endpoints
-- Database indexing
-- Response caching strategies
 
 ## 📊 Benchmark Report
 
