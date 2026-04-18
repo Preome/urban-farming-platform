@@ -89,6 +89,7 @@ node prisma/seed.js
 
 
 
+
 ## 📚 API Documentation & Testing
 
 ### Swagger Testing
@@ -97,7 +98,7 @@ node prisma/seed.js
 
 
 ## ⚡ API Response Control & Performance Strategy
-[PERFORMANCE_STRATEGY.md](PERFORMANCE_STRATEGY)
+[PERFORMANCE_STRATEGY.md](PERFORMANCE_STRATEGY.md)
 
 
 ## 📊 Benchmark Report
