@@ -1,0 +1,972 @@
+{
+  "info": {
+    "name": "Urban Farming Platform API",
+    "description": "Complete API collection for Urban Farming Platform with all features",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "AUTH_TOKEN",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ADMIN_TOKEN",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "VENDOR_TOKEN",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "USER_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "PRODUCT_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "RENTAL_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ORDER_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "POST_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "PLANT_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "CERT_ID",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Customer\",\n  \"email\": \"customer@test.com\",\n  \"password\": \"customer123\",\n  \"role\": \"CUSTOMER\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Vendor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Green Farm Vendor\",\n  \"email\": \"vendor@greenfarm.com\",\n  \"password\": \"vendor123\",\n  \"role\": \"VENDOR\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.token) {",
+                  "    pm.environment.set(\"AUTH_TOKEN\", response.data.token);",
+                  "    pm.environment.set(\"USER_ID\", response.data.user.id);",
+                  "    pm.environment.set(\"USER_ROLE\", response.data.user.role);",
+                  "    console.log(\"Token saved successfully\");",
+                  "}",
+                  "pm.test(\"Login successful\", function() {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(response.success).to.be.true;",
+                  "    pm.expect(response.data.token).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@test.com\",\n  \"password\": \"customer123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.token) {",
+                  "    pm.environment.set(\"ADMIN_TOKEN\", response.data.token);",
+                  "    console.log(\"Admin token saved\");",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@urbanfarming.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Vendor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.token) {",
+                  "    pm.environment.set(\"VENDOR_TOKEN\", response.data.token);",
+                  "    console.log(\"Vendor token saved\");",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"vendor@greenfarm.com\",\n  \"password\": \"vendor123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Products (Produce)",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/produce?page=1&limit=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "produce"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Products with Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/produce?category=Vegetables&minPrice=5&maxPrice=15&organic=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "produce"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Vegetables"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "5"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "15"
+                },
+                {
+                  "key": "organic",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/produce?search=tomato",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "produce"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "tomato"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/produce/{{PRODUCT_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "produce", "{{PRODUCT_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product (Vendor)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.id) {",
+                  "    pm.environment.set(\"PRODUCT_ID\", response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{VENDOR_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Organic Cherry Tomatoes\",\n  \"description\": \"Sweet organic cherry tomatoes\",\n  \"price\": 6.99,\n  \"category\": \"Vegetables\",\n  \"availableQuantity\": 100,\n  \"unit\": \"kg\",\n  \"isOrganic\": true\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/produce",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "produce"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Rental Spaces",
+      "item": [
+        {
+          "name": "Get All Rental Spaces",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/rentals",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "rentals"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Rental Spaces",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/rentals?location=Downtown&minPrice=50&maxPrice=150",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "rentals"],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "Downtown"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "50"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "150"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Rental Space",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/rentals/{{RENTAL_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "rentals", "{{RENTAL_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Rental Space",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.id) {",
+                  "    pm.environment.set(\"BOOKING_ID\", response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"2024-06-01\",\n  \"endDate\": \"2024-08-31\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/rentals/{{RENTAL_ID}}/book",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "rentals", "{{RENTAL_ID}}", "book"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.id) {",
+                  "    pm.environment.set(\"ORDER_ID\", response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"produceId\": \"{{PRODUCT_ID}}\",\n      \"quantity\": 2\n    }\n  ],\n  \"shippingAddress\": \"123 Green Street, Eco City\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/my-orders?page=1&limit=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "my-orders"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/{{ORDER_ID}}/cancel",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "{{ORDER_ID}}", "cancel"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Community Forum",
+      "item": [
+        {
+          "name": "Get All Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/community/posts?page=1&limit=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "community", "posts"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Posts by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/community/posts?category=TIPS",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "community", "posts"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "TIPS"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.id) {",
+                  "    pm.environment.set(\"POST_ID\", response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My Urban Gardening Tips\",\n  \"postContent\": \"Here are my top tips for urban gardening...\",\n  \"category\": \"TIPS\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/community/posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "community", "posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Like a Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/community/posts/{{POST_ID}}/like",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "community", "posts", "{{POST_ID}}", "like"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment to Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"Great tips! Thanks for sharing!\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/community/posts/{{POST_ID}}/comments",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "community", "posts", "{{POST_ID}}", "comments"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Plant Tracking",
+      "item": [
+        {
+          "name": "Get My Plants",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/plants",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "plants"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add a Plant",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.id) {",
+                  "    pm.environment.set(\"PLANT_ID\", response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plantName\": \"Basil\",\n  \"plantType\": \"Herb\",\n  \"plantingDate\": \"2024-04-01\",\n  \"expectedHarvestDate\": \"2024-06-15\",\n  \"healthStatus\": \"HEALTHY\",\n  \"notes\": \"Growing well in sunny spot\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/plants",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "plants"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Plant Health",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AUTH_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"healthStatus\": \"NEEDS_WATER\",\n  \"notes\": \"Soil is dry, needs watering\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/plants/{{PLANT_ID}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "plants", "{{PLANT_ID}}", "health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "7. Certifications",
+      "item": [
+        {
+          "name": "Submit Certification (Vendor)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if(response.success && response.data && response.data.id) {",
+                  "    pm.environment.set(\"CERT_ID\", response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{VENDOR_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"certifyingAgency\": \"USDA Organic\",\n  \"certificationNumber\": \"ORG-2024-00123\",\n  \"certificationDate\": \"2024-01-15\",\n  \"expiryDate\": \"2025-01-15\",\n  \"documentUrl\": \"https://example.com/certificate.pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/certifications",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "certifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Certifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{VENDOR_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/certifications/my-certifications",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "certifications", "my-certifications"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "8. Admin Operations",
+      "item": [
+        {
+          "name": "Admin Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ADMIN_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/dashboard",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "admin", "dashboard"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ADMIN_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/users?page=1&limit=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "admin", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Certifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ADMIN_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/certifications/pending",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "admin", "certifications", "pending"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Certification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ADMIN_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/certifications/{{CERT_ID}}/approve",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "admin", "certifications", "{{CERT_ID}}", "approve"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ADMIN_TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/admin/users/{{USER_ID}}/status",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "admin", "users", "{{USER_ID}}", "status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "9. Health & Test",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/",
+              "host": ["{{BASE_URL}}"],
+              "path": [""]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
